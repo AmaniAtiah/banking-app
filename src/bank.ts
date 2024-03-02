@@ -82,4 +82,32 @@ export class Bank {
       });
     }
   }
+
+  searchCustomers(query: string | number): Customers[] {
+    const matchedCustomers: Customers[] = [];
+
+    this.branches.forEach((branch) => {
+      branch.getCustomers().forEach((customer) => {
+        if (
+          customer
+            .getName()
+            .toLowerCase()
+            .includes(query.toString().toLowerCase()) ||
+          customer.getId().toString().includes(query.toString())
+        ) {
+          matchedCustomers.push({
+            customer: customer,
+            branch: branch.getName(),
+          });
+        }
+      });
+    });
+
+    return matchedCustomers;
+  }
 }
+
+type Customers = {
+  customer: Customer;
+  branch: string;
+};

@@ -31,3 +31,16 @@ customer1.addTransaction(-1000);
 console.log(customer1.getBalance());
 console.log(arizonaBank.listCustomers(westBranch, true));
 console.log(arizonaBank.listCustomers(sunBranch, true));
+
+const searchResult = arizonaBank.searchCustomers(1);
+
+if (searchResult) {
+  console.log("Search Results:");
+  searchResult.forEach((result) => {
+    console.log(
+      `- Branch: ${result.branch}, Customer Name: ${result.customer.getName()} `
+    );
+  });
+} else {
+  console.log("No matching customers found.");
+}
