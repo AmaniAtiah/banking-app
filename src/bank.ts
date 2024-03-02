@@ -1,19 +1,39 @@
-class Bank {
-  constructor(name) {
+import { Branch } from "./branch";
+import { Customer } from "./customer";
+export class Bank {
+  private name: string;
+  private branches: Branch[];
+
+  constructor(name: string) {
     this.name = name;
     this.branches = [];
   }
 
-  addBranch(branch) {
+  setName(name: string) {
+    this.name = name;
+  }
+
+  getName(): string {
+    return this.name;
+  }
+
+  setBranches(branches: Branch[]) {
+    this.branches = branches;
+  }
+
+  getBranches(): Branch[] {
+    return this.branches;
+  }
+
+  addBranch(branch: Branch): boolean {
     if (!this.branches.includes(branch)) {
       this.branches.push(branch);
       return true;
-    } else {
-      return false;
     }
+    return false;
   }
 
-  addCustomer(branch, customer) {
+  addCustomer(branch: Branch, customer: Customer): boolean {
     if (this.branches.includes(branch)) {
       return branch.addCustomer(customer);
     } else {
@@ -21,7 +41,11 @@ class Bank {
     }
   }
 
-  addCustomerTransaction(branch, customerId, amount) {
+  addCustomerTransaction(
+    branch: Branch,
+    customerId: number,
+    amount: number
+  ): boolean {
     const branchByName = this.findBranchByName(branch.getName());
     if (branchByName) {
       branchByName.addCustomerTransaction(customerId, amount);
@@ -30,25 +54,24 @@ class Bank {
     return false;
   }
 
-  findBranchByName(name) {
+  findBranchByName(name: string): Branch | undefined {
     const branchName = this.branches.find(
       (branch) => branch.getName() === name
     );
     return branchName;
   }
 
-  checkBranch(branch) {
+  checkBranch(branch: Branch): boolean {
     if (this.branches.includes(branch)) {
       return true;
     }
     return false;
   }
 
-  listCustomers(branch, includeTransaction) {
+  listCustomers(branch: Branch, includeTransaction: boolean): void {
     const branchByName = this.findBranchByName(branch.getName());
-    const customers = branch.getCustomers();
     if (branchByName) {
-      customers.forEach((customer) => {
+      branchByName.getCustomers().forEach((customer) => {
         if (includeTransaction) {
           console.log(
             `Customer: ${customer.getName()}, Balance: ${customer.getBalance()}`
@@ -60,5 +83,3 @@ class Bank {
     }
   }
 }
-
-module.exports = Bank;

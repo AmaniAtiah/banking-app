@@ -1,18 +1,30 @@
-class Branch {
-  constructor(name) {
+import { Customer } from "./customer";
+export class Branch {
+  private name: string;
+  private customers: Customer[];
+
+  constructor(name: string) {
     this.name = name;
     this.customers = [];
   }
 
-  getName() {
+  setName(name: string): void {
+    this.name = name;
+  }
+
+  getName(): string {
     return this.name;
   }
 
-  getCustomers() {
+  setCustomers(customers: Customer[]) {
+    this.customers = customers;
+  }
+
+  getCustomers(): Customer[] {
     return this.customers;
   }
 
-  addCustomer(customer) {
+  addCustomer(customer: Customer): boolean {
     if (!this.customers.includes(customer)) {
       this.customers.push(customer);
       return true;
@@ -21,7 +33,7 @@ class Branch {
     }
   }
 
-  addCustomerTransaction(customerId, amount) {
+  addCustomerTransaction(customerId: number, amount: number): boolean {
     const customer = this.customers.find(
       (customer) => customer.getId() === customerId
     );
@@ -33,5 +45,3 @@ class Branch {
     return false;
   }
 }
-
-module.exports = Branch;
