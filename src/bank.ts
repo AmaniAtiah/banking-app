@@ -62,10 +62,7 @@ export class Bank {
   }
 
   checkBranch(branch: Branch): boolean {
-    if (this.branches.includes(branch)) {
-      return true;
-    }
-    return false;
+    return this.branches.includes(branch);
   }
 
   listCustomers(branch: Branch, includeTransaction: boolean): void {
@@ -83,7 +80,7 @@ export class Bank {
     }
   }
 
-  searchCustomers(query: string | number): Customers[] {
+  searchCustomers(query: string | number): Customers[] | null {
     const matchedCustomers: Customers[] = [];
 
     this.branches.forEach((branch) => {
@@ -103,7 +100,7 @@ export class Bank {
       });
     });
 
-    return matchedCustomers;
+    return matchedCustomers.length ? matchedCustomers : null;
   }
 }
 
